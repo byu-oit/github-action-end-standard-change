@@ -1,25 +1,33 @@
-name: "units-test"
+name: "Test"
 on:
-  pull_request:
   push:
     branches:
       - master
-      - 'releases/*'
 
 jobs:
-  # unit tests
-  units:
+  end-standard-change-deploy-failed:
+    name: End Standard Change - Deploy Failed
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - run: npm ci
-    - run: npm test
+      - uses: actions/checkout@v1
+      - name: End Standard Change
+        uses: ./
+        with:
+          client-key: ${{ secrets.CLIENT_KEY }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          change-sys-id: ${{ secrets.TEST_CHANGE_SYS_ID }}
+          success: 'false'
 
-  # test action works running from the graph  
-  test:
+  end-standard-change-deploy-successful:
+    name: End Standard Change - Deploy Successful
+    needs: end-standard-change-deploy-failed
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: ./
-      with:
-        milliseconds: 1000
+      - uses: actions/checkout@v1
+      - name: End Standard Change
+        uses: ./
+        with:
+          client-key: ${{ secrets.CLIENT_KEY }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          change-sys-id: ${{ secrets.TEST_CHANGE_SYS_ID }}
+          success: 'true'
