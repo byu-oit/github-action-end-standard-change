@@ -30,8 +30,8 @@ async function run () {
 
     const currentDateTime = getCurrentDateTime()
 
-    // Close the RFC
-    const optionsToCloseRfc = {
+    // End the RFC
+    const optionsToEndRfc = {
       method: 'PUT',
       uri: `https://api.byu.edu:443/domains/servicenow/changerequest/v1/change_request/${changeSysId}`,
       body: {
@@ -46,7 +46,12 @@ async function run () {
         })
       }
     }
-    await wso2.request(optionsToCloseRfc).catch(() => wso2.request(optionsToCloseRfc)) // Retry once
+    const bodyWithResultsOfEndingRfc = await wso2.request(optionsToEndRfc).catch(() => wso2.request(optionsToEndRfc)) // Retry once
+    const result = bodyWithResultsOfEndingRfc.result
+
+    console.log(`${result.number} closed`)
+    console.log(`Link to RFC: https://it.byu.edu/change_request.do?sysparm_query=number=${result.number}`)
+
     process.exit(0)
   } catch (err) {
     const wso2TokenRegex = /[0-9a-f]{32}/g
