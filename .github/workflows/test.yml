@@ -16,6 +16,7 @@ jobs:
           client-key: ${{ secrets.CLIENT_KEY }}
           client-secret: ${{ secrets.CLIENT_SECRET }}
           change-sys-id: ${{ secrets.TEST_CHANGE_SYS_ID }}
+          work-start: ${{ secrets.TEST_WORK_START }}
           success: 'false'
 
   end-standard-change-deploy-successful:
@@ -30,4 +31,5 @@ jobs:
           client-key: ${{ secrets.CLIENT_KEY }}
           client-secret: ${{ secrets.CLIENT_SECRET }}
           change-sys-id: ${{ secrets.TEST_CHANGE_SYS_ID }}
+          work-start: ${{ secrets.TEST_WORK_START }}
           success: 'true'

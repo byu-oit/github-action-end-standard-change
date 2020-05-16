@@ -17,9 +17,9 @@ async function run () {
   const clientKey = getInput('client-key')
   const clientSecret = getInput('client-secret')
   const changeSysId = getInput('change-sys-id')
-  // const workStart = getInput('work-start')
+  const workStart = getInput('work-start')
   const success = getInput('success')
-  if (!clientKey || !clientSecret || !changeSysId || /* !workStart || */ (success !== 'true' && success !== 'false')) {
+  if (!clientKey || !clientSecret || !changeSysId || !workStart || (success !== 'true' && success !== 'false')) {
     setFailed('Missing an expected input')
     return
   }
@@ -36,7 +36,7 @@ async function run () {
       uri: `https://api.byu.edu:443/domains/servicenow/changerequest/v1/change_request/${changeSysId}`,
       body: {
         state: 'Finished',
-        // work_start: workStart,
+        work_start: workStart,
         work_end: currentDateTime,
         u_task_work_log: 'Closed via GitHub Action',
         u_completion_rating: success === 'true' ? 1 : 5, // 1 = Successful, 5 = Failed
