@@ -1,5 +1,5 @@
-name: 'BYU ServiceNow - Close Standard Change RFC'
-description: 'Closes a Standard Change RFC in BYUs ServiceNow system.'
+name: 'BYU ServiceNow - End Standard Change RFC'
+description: 'Ends a Standard Change RFC in BYUs ServiceNow system.'
 inputs:
   client-key:
     description: 'The WSO2 Client Key to use when calling the ServiceNow API'
