@@ -10,13 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Start Standard Change
+        uses: byu-oit/github-action-start-standard-change@v1
+        id: start-standard-change
+        with:
+          client-key: ${{ secrets.CLIENT_KEY }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          template-id: ${{ secrets.TEST_TEMPLATE_ID }}
       - name: End Standard Change
         uses: ./
         with:
           client-key: ${{ secrets.CLIENT_KEY }}
           client-secret: ${{ secrets.CLIENT_SECRET }}
-          change-sys-id: ${{ secrets.TEST_CHANGE_SYS_ID }}
-          work-start: ${{ secrets.TEST_WORK_START }}
+          change-sys-id: ${{ steps.start-standard-change.outputs.change-sys-id }}
+          work-start: ${{ steps.start-standard-change.outputs.work-start }}
           success: 'false'
 
   end-standard-change-deploy-successful:
@@ -25,11 +32,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Start Standard Change
+        uses: byu-oit/github-action-start-standard-change@v1
+        id: start-standard-change
+        with:
+          client-key: ${{ secrets.CLIENT_KEY }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          template-id: ${{ secrets.TEST_TEMPLATE_ID }}
       - name: End Standard Change
         uses: ./
         with:
           client-key: ${{ secrets.CLIENT_KEY }}
           client-secret: ${{ secrets.CLIENT_SECRET }}
-          change-sys-id: ${{ secrets.TEST_CHANGE_SYS_ID }}
-          work-start: ${{ secrets.TEST_WORK_START }}
+          change-sys-id: ${{ steps.start-standard-change.outputs.change-sys-id }}
+          work-start: ${{ steps.start-standard-change.outputs.work-start }}
           success: 'true'
