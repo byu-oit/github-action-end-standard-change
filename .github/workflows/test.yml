@@ -14,14 +14,14 @@ jobs:
         uses: byu-oit/github-action-start-standard-change@v1
         id: start-standard-change
         with:
-          client-key: ${{ secrets.CLIENT_KEY }}
-          client-secret: ${{ secrets.CLIENT_SECRET }}
+          client-key: ${{ secrets.STANDARD_CHANGE_SANDBOX_CLIENT_KEY }}
+          client-secret: ${{ secrets.STANDARD_CHANGE_SANDBOX_CLIENT_SECRET }}
           template-id: ${{ secrets.TEST_TEMPLATE_ID }}
       - name: End Standard Change
         uses: ./
         with:
-          client-key: ${{ secrets.CLIENT_KEY }}
-          client-secret: ${{ secrets.CLIENT_SECRET }}
+          client-key: ${{ secrets.STANDARD_CHANGE_SANDBOX_CLIENT_KEY }}
+          client-secret: ${{ secrets.STANDARD_CHANGE_SANDBOX_CLIENT_SECRET }}
           change-sys-id: ${{ steps.start-standard-change.outputs.change-sys-id }}
           work-start: ${{ steps.start-standard-change.outputs.work-start }}
           success: 'false'
@@ -36,14 +36,14 @@ jobs:
         uses: byu-oit/github-action-start-standard-change@v1
         id: start-standard-change
         with:
-          client-key: ${{ secrets.CLIENT_KEY }}
-          client-secret: ${{ secrets.CLIENT_SECRET }}
+          client-key: ${{ secrets.STANDARD_CHANGE_SANDBOX_CLIENT_KEY }}
+          client-secret: ${{ secrets.STANDARD_CHANGE_SANDBOX_CLIENT_SECRET }}
           template-id: ${{ secrets.TEST_TEMPLATE_ID }}
       - name: End Standard Change
         uses: ./
         with:
-          client-key: ${{ secrets.CLIENT_KEY }}
-          client-secret: ${{ secrets.CLIENT_SECRET }}
+          client-key: ${{ secrets.STANDARD_CHANGE_SANDBOX_CLIENT_KEY }}
+          client-secret: ${{ secrets.STANDARD_CHANGE_SANDBOX_CLIENT_SECRET }}
           change-sys-id: ${{ steps.start-standard-change.outputs.change-sys-id }}
           work-start: ${{ steps.start-standard-change.outputs.work-start }}
           success: 'true'
