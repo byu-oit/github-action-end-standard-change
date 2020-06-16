@@ -1,6 +1,7 @@
 const { getInput, setFailed } = require('@actions/core')
 const wso2 = require('byu-wso2-request')
 const { DateTime } = require('luxon')
+const jsonWebToken = require('jsonwebtoken')
 
 const localTimezoneIsAmericaDenver = (Intl.DateTimeFormat().resolvedOptions().timeZone === 'America/Denver')
 
@@ -30,7 +31,7 @@ async function run () {
 
     const currentDateTime = getCurrentDateTime()
 
-    // End the RFC
+    // End the RFC (and figure out if we're doing it in sandbox or production)
     const optionsToEndRfc = {
       method: 'PUT',
       uri: `https://api.byu.edu:443/domains/servicenow/changerequest/v1/change_request/${changeSysId}`,
@@ -46,11 +47,20 @@ async function run () {
         })
       }
     }
-    const bodyWithResultsOfEndingRfc = await wso2.request(optionsToEndRfc).catch(() => wso2.request(optionsToEndRfc)) // Retry once
+    let errorOccurredWhileGettingCredentialsType = false
+    const [bodyWithResultsOfEndingRfc, credentialsType] = await Promise.all([
+      requestWithRetry(optionsToEndRfc),
+      getTypeOfCredentials().catch(() => { errorOccurredWhileGettingCredentialsType = true; return 'PRODUCTION' })
+    ])
+    if (errorOccurredWhileGettingCredentialsType) {
+      console.log('⚠️ An error occurred while trying to determine if production or sandbox credentials were used for ServiceNow. ⚠️')
+      console.log('The standard change was still ended in the correct environment.')
+      console.log('So the link provided below will be for the production environment, even though you may have used sandbox credentials. 🤷')
+    }
     const result = bodyWithResultsOfEndingRfc.result
 
     console.log(`${result.number} closed`)
-    console.log(`Link to RFC: https://it.byu.edu/change_request.do?sysparm_query=number=${result.number}`)
+    console.log(`Link to RFC: https://${credentialsType === 'PRODUCTION' ? 'it' : 'ittest'}.byu.edu/change_request.do?sysparm_query=number=${result.number}`)
 
     process.exit(0)
   } catch (err) {
@@ -58,6 +68,17 @@ async function run () {
     setFailed(err.message.replace(wso2TokenRegex, 'REDACTED'))
     process.exit(1)
   }
+}
+
+function requestWithRetry (options) {
+  return wso2.request(options).catch(() => wso2.request(options))
+}
+
+async function getTypeOfCredentials () {
+  const options = { uri: 'https://api.byu.edu:443/echo/v1/echo/test', simple: true }
+  const { Headers: { 'X-Jwt-Assertion': [jwt] } } = await requestWithRetry(options)
+  const decoded = jsonWebToken.decode(jwt)
+  return decoded['http://wso2.org/claims/keytype'] // 'PRODUCTION' | 'SANDBOX'
 }
 
 run()
