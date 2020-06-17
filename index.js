@@ -60,6 +60,7 @@ async function run () {
     const result = bodyWithResultsOfEndingRfc.result
 
     console.log(`${result.number} closed`)
+    console.log(`The change ${success === 'true' ? 'was a success! 🎉' : 'failed! 💥'}`)
     console.log(`Link to RFC: https://${credentialsType === 'PRODUCTION' ? 'it' : 'ittest'}.byu.edu/change_request.do?sysparm_query=number=${result.number}`)
 
     process.exit(0)
