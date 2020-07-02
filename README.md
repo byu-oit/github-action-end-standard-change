@@ -1,4 +1,4 @@
-![Build](https://github.com/byu-oit/github-action-end-standard-change/workflows/Build/badge.svg)
+![CI](https://github.com/byu-oit/github-action-end-standard-change/workflows/CI/badge.svg)
 ![Test](https://github.com/byu-oit/github-action-end-standard-change/workflows/Test/badge.svg)
 
 # ![BYU logo](https://www.hscripts.com/freeimages/logos/university-logos/byu/byu-logo-clipart-128.gif) github-action-end-standard-change
