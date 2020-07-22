@@ -1,4 +1,4 @@
-const { getInput, setFailed } = require('@actions/core')
+const { getInput, setFailed, warning } = require('@actions/core')
 const wso2 = require('byu-wso2-request')
 const { DateTime } = require('luxon')
 const jsonWebToken = require('jsonwebtoken')
@@ -60,7 +60,11 @@ async function run () {
     const result = bodyWithResultsOfEndingRfc.result
 
     console.log(`${result.number} closed`)
-    console.log(`The change ${success === 'true' ? 'was a success! 🎉' : 'failed! 💥'}`)
+    if (success === 'true') {
+      console.log('The change was a success! 🎉')
+    } else {
+      warning('The change failed! 💥')
+    }
     console.log(`Link to RFC: https://${credentialsType === 'PRODUCTION' ? 'support' : 'support-test'}.byu.edu/change_request.do?sysparm_query=number=${result.number}`)
 
     process.exit(0)
