@@ -3,16 +3,6 @@ const wso2 = require('byu-wso2-request')
 const { DateTime } = require('luxon')
 const jsonWebToken = require('jsonwebtoken')
 
-const localTimezoneIsAmericaDenver = (Intl.DateTimeFormat().resolvedOptions().timeZone === 'America/Denver')
-
-// In ServiceNow format, which goes by Denver (Utah) time
-// 2020-05-14 17:17:39 (5:17pm in Utah)
-function getCurrentDateTime () {
-  return (localTimezoneIsAmericaDenver) // We get a fairly big performance win from not having to specify the zone
-    ? DateTime.local().toFormat('yyyy-LL-dd HH:mm:ss')
-    : DateTime.local().setZone('America/Denver').toFormat('yyyy-LL-dd HH:mm:ss')
-}
-
 async function run () {
 // Grab some inputs from GitHub Actions
   const clientKey = getInput('client-key')
@@ -29,7 +19,8 @@ async function run () {
     // Some setup required to make calls through WSO2
     await wso2.setOauthSettings(clientKey, clientSecret)
 
-    const currentDateTime = getCurrentDateTime()
+    // UTC, in ServiceNow's format
+    const currentDateTime = DateTime.utc().toFormat('yyyy-LL-dd HH:mm:ss')
 
     // End the RFC (and figure out if we're doing it in sandbox or production)
     const optionsToEndRfc = {
