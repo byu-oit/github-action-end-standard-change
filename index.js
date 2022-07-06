@@ -34,7 +34,7 @@ async function run () {
     // End the RFC
     const optionsToEndRfc = {
       method: 'PUT',
-      uri: `https://api.byu.edu:443/domains/servicenow/changerequest/v1/change_request/${changeSysId}`,
+      uri: `https://${host}/domains/servicenow/changerequest/v1/change_request/${changeSysId}`,
       body: {
         state: 'Finished',
         work_start: workStart,
