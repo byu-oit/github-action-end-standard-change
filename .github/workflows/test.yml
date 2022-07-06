@@ -9,7 +9,7 @@ jobs:
     name: End Standard Change - Deploy Failed
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Start Standard Change
         uses: byu-oit/github-action-start-standard-change@v1
         id: start-standard-change
@@ -31,7 +31,7 @@ jobs:
     needs: end-standard-change-deploy-failed
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Start Standard Change
         uses: byu-oit/github-action-start-standard-change@v1
         id: start-standard-change
