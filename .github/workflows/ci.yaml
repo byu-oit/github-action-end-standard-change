@@ -6,7 +6,7 @@ on:
       - staging
       - 'v*'
 env:
-  node_version: "16.x"
+  node_version: "20.x"
 
 jobs:
   build: # make sure build/ci work properly
