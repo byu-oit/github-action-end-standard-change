@@ -2,10 +2,10 @@ name: 'BYU ServiceNow - End Standard Change RFC'
 description: 'Ends a Standard Change RFC in BYUs ServiceNow system.'
 inputs:
   client-key:
-    description: 'The WSO2 Client Key to use when calling the ServiceNow API'
+    description: 'The Tyk Client Key to use when calling the ServiceNow API'
     required: true
   client-secret:
-    description: 'The WSO2 Client Secret to use when calling the ServiceNow API'
+    description: 'The Tyk Client Secret to use when calling the ServiceNow API'
     required: true
   change-sys-id:
     description: 'The ID of the Standard Change RFC (Ex: "7bb66e551bb81c10be7cb992cc4bcb9d")'
