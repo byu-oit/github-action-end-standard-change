@@ -16,6 +16,10 @@ inputs:
   success:
     description: 'Was the RFC successful? "true" or "false"'
     required: true
+  run-in-non-production:
+    description: 'Whether to end an RFC in non-production (sandbox). Defaults to false, which makes this action a no-op in non-production.'
+    required: false
+    default: 'false'
 runs:
   using: 'node20'
   main: 'dist/index.js'
